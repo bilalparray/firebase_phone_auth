@@ -1,7 +1,7 @@
-import 'package:firebase_auth/provider/auth_provider.dart';
-import 'package:firebase_auth/screens/home_screen.dart';
-import 'package:firebase_auth/screens/registration_screen.dart';
-import 'package:firebase_auth/widgets/custom_button.dart';
+import 'package:firebase_auth_app/provider/auth_provider.dart';
+import 'package:firebase_auth_app/screens/home_screen.dart';
+import 'package:firebase_auth_app/screens/registration_screen.dart';
+import 'package:firebase_auth_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +48,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   child: CustomButton(
                       text: "Get Started",
                       onPressed: () {
-                        ap.isSignedIn == true
+                        ap.isSignedIn ==
+                                true //when true always fetch data from shared pref // impelement later
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(

@@ -1,7 +1,10 @@
-import 'package:firebase_auth/widgets/custom_button.dart';
+import 'package:firebase_auth_app/provider/auth_provider.dart';
+import 'package:firebase_auth_app/utils/utils.dart';
+import 'package:firebase_auth_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -133,11 +136,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child: CustomButton(text: "Login", onPressed: () {}))
+                  child: CustomButton(
+                      text: "Login", onPressed: () => sendPhoneNumber()))
             ],
           ),
         ),
       ))),
     );
+  }
+
+  void sendPhoneNumber() {
+    if (phoneController.text.isEmpty || phoneController.text.length < 10) {
+      showSnackBar(context, "Please enter your phone number");
+      return;
+    }
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    String phoneNumber = phoneController.text.trim();
+    ap.signInWithPhone(context, "+${selectedCountry.phoneCode}$phoneNumber");
   }
 }
