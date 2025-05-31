@@ -14,7 +14,12 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            children: [Text("homescree")],
+            children: [
+              Text(
+                "homescree",
+                style: TextStyle(color: Colors.red),
+              )
+            ],
           ),
         ),
       ),
