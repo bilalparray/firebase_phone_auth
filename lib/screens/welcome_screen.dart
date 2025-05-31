@@ -15,6 +15,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       body: SafeArea(
           child: Center(
+              child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
           child: Column(
@@ -51,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ],
           ),
         ),
-      )),
+      ))),
     );
   }
 }

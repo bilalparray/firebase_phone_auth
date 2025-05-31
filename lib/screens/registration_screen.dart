@@ -29,111 +29,113 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
       body: SafeArea(
           child: Center(
-              child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/3.png'),
-            SizedBox(
-              height: 20,
-            ),
-            const Text(
-              "Registration",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Enter your phone number we will send you a verification code.",
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black38,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              cursorColor: Colors.purple,
-              controller: phoneController,
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.bold),
-              onChanged: (value) => setState(() {
-                phoneController.text = value;
-              }),
-              decoration: InputDecoration(
-                  hintText: "Enter Your Phone Number.",
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black12)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black12)),
-                  // ←–––– Use prefixIcon instead of prefix –––––→
-                  prefixIcon: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: InkWell(
-                      onTap: () {
-                        showCountryPicker(
-                          context: context,
-                          countryListTheme:
-                              CountryListThemeData(bottomSheetHeight: 550),
-                          onSelect: (value) {
-                            setState(() {
-                              selectedCountry = value;
-                            });
-                          },
-                        );
-                      },
-                      child: Text(
-                        "${selectedCountry.flagEmoji} +${selectedCountry.phoneCode}",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('assets/3.png'),
+              SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "Registration",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Enter your phone number we will send you a verification code.",
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black38,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                cursorColor: Colors.purple,
+                controller: phoneController,
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.bold),
+                onChanged: (value) => setState(() {
+                  phoneController.text = value;
+                }),
+                decoration: InputDecoration(
+                    hintText: "Enter Your Phone Number.",
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.black12)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.black12)),
+                    // ←–––– Use prefixIcon instead of prefix –––––→
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: InkWell(
+                        onTap: () {
+                          showCountryPicker(
+                            context: context,
+                            countryListTheme:
+                                CountryListThemeData(bottomSheetHeight: 550),
+                            onSelect: (value) {
+                              setState(() {
+                                selectedCountry = value;
+                              });
+                            },
+                          );
+                        },
+                        child: Text(
+                          "${selectedCountry.flagEmoji} +${selectedCountry.phoneCode}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  prefixIconConstraints:
-                      const BoxConstraints(minWidth: 80, minHeight: 0),
-                  suffix: phoneController.text.length > 9
-                      ? Container(
-                          height: 15,
-                          width: 15,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.green),
-                          child: Icon(
-                            Icons.done,
-                            size: 10,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Container(
-                          height: 15,
-                          width: 15,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.red),
-                          child: Icon(
-                            Icons.error,
-                            size: 10,
-                            color: Colors.white,
-                          ),
-                        )),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: CustomButton(text: "Login", onPressed: () {}))
-          ],
+                    prefixIconConstraints:
+                        const BoxConstraints(minWidth: 80, minHeight: 0),
+                    suffix: phoneController.text.length > 9
+                        ? Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.green),
+                            child: Icon(
+                              Icons.done,
+                              size: 10,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.red),
+                            child: Icon(
+                              Icons.error,
+                              size: 10,
+                              color: Colors.white,
+                            ),
+                          )),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: CustomButton(text: "Login", onPressed: () {}))
+            ],
+          ),
         ),
       ))),
     );
