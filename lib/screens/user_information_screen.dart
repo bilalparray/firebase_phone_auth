@@ -6,20 +6,21 @@ import 'package:firebase_auth_app/screens/home_screen.dart';
 import 'package:firebase_auth_app/utils/utils.dart';
 import 'package:firebase_auth_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-class UserInformationScreen extends StatefulWidget {
-  const UserInformationScreen({super.key});
+class UserInfromationScreen extends StatefulWidget {
+  const UserInfromationScreen({super.key});
 
   @override
-  State<UserInformationScreen> createState() => _UserInformationScreenState();
+  State<UserInfromationScreen> createState() => _UserInfromationScreenState();
 }
 
-class _UserInformationScreenState extends State<UserInformationScreen> {
+class _UserInfromationScreenState extends State<UserInfromationScreen> {
+  File? image;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final bioController = TextEditingController();
-  File? image;
 
   @override
   void dispose() {
@@ -29,38 +30,38 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     bioController.dispose();
   }
 
-  ///selecct image from gallery
-  void selectImageFromGallery() async {
-    image = await pickImageFromGallery(context);
+  // for selecting image
+  void selectImage() async {
+    image = await pickImage(context);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final isLoading =
-        Provider.of<AuthProvider>(context, listen: true).isloading;
-
+        Provider.of<AuthProvider>(context, listen: true).isLoading;
     return Scaffold(
       body: SafeArea(
-          child: Center(
         child: isLoading == true
-            ? CircularProgressIndicator(
-                color: Colors.purple,
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.purple,
+                ),
               )
-            : Padding(
+            : SingleChildScrollView(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 5),
-                child: SingleChildScrollView(
+                    const EdgeInsets.symmetric(vertical: 25.0, horizontal: 5.0),
+                child: Center(
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: () => selectImageFromGallery(),
+                        onTap: () => selectImage(),
                         child: image == null
                             ? const CircleAvatar(
                                 backgroundColor: Colors.purple,
                                 radius: 50,
                                 child: Icon(
-                                  Icons.account_circle_sharp,
+                                  Icons.account_circle,
                                   size: 50,
                                   color: Colors.white,
                                 ),
@@ -72,126 +73,138 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(5),
-                        margin: EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        margin: const EdgeInsets.only(top: 20),
                         child: Column(
                           children: [
-                            //name
-                            textField(
-                                hindText: 'Enter your name here ...',
-                                icon: Icons.account_circle_sharp,
-                                inputType: TextInputType.name,
-                                maxLines: 1,
-                                controller: nameController),
-                            //email
-                            textField(
-                                hindText: 'example@gmail.com',
-                                icon: Icons.email,
-                                inputType: TextInputType.emailAddress,
-                                maxLines: 1,
-                                controller: emailController),
-
-                            //bio
-                            textField(
-                                hindText: 'This is a bio',
-                                icon: Icons.person,
-                                inputType: TextInputType.text,
-                                maxLines: 1,
-                                controller: bioController),
-
-                            const SizedBox(
-                              height: 20,
+                            // name field
+                            textFeld(
+                              hintText: "John Smith",
+                              icon: Icons.account_circle,
+                              inputType: TextInputType.name,
+                              maxLines: 1,
+                              controller: nameController,
                             ),
-                            SizedBox(
-                                height: 50,
-                                width: double.infinity,
-                                child: CustomButton(
-                                    text: "Continue",
-                                    onPressed: () => storeDataToDb()))
+
+                            // email
+                            textFeld(
+                              hintText: "abc@example.com",
+                              icon: Icons.email,
+                              inputType: TextInputType.emailAddress,
+                              maxLines: 1,
+                              controller: emailController,
+                            ),
+
+                            // bio
+                            textFeld(
+                              hintText: "Enter your bio here...",
+                              icon: Icons.edit,
+                              inputType: TextInputType.name,
+                              maxLines: 2,
+                              controller: bioController,
+                            ),
                           ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        child: CustomButton(
+                          text: "Continue",
+                          onPressed: () => storeData(),
                         ),
                       )
                     ],
                   ),
                 ),
               ),
-      )),
+      ),
     );
   }
 
-  Widget textField({
-    required String hindText,
+  Widget textFeld({
+    required String hintText,
     required IconData icon,
     required TextInputType inputType,
     required int maxLines,
     required TextEditingController controller,
   }) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: TextFormField(
         cursorColor: Colors.purple,
         controller: controller,
         keyboardType: inputType,
         maxLines: maxLines,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            prefixIcon: Container(
-              margin: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.purple,
-              ),
-              child: Icon(
-                icon,
-                size: 20,
-                color: Colors.white,
-              ),
+          prefixIcon: Container(
+            margin: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.purple,
             ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.transparent)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.transparent)),
-            hintText: hindText,
-            alignLabelWithHint: true,
-            fillColor: Colors.purple.shade50,
-            filled: true),
+            child: Icon(
+              icon,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: Colors.transparent,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              color: Colors.transparent,
+            ),
+          ),
+          hintText: hintText,
+          alignLabelWithHint: true,
+          border: InputBorder.none,
+          fillColor: Colors.purple.shade50,
+          filled: true,
+        ),
       ),
     );
   }
 
-  ///store data to db
-  ///
-  void storeDataToDb() {
+  // store user data to database
+  void storeData() async {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     UserModel userModel = UserModel(
-        uid: '',
-        email: emailController.text.trim(),
-        name: nameController.text.trim(),
-        bio: bioController.text.trim(),
-        profilePic: '',
-        createdAt: '',
-        phoneNumber: '');
-
+      name: nameController.text.trim(),
+      email: emailController.text.trim(),
+      bio: bioController.text.trim(),
+      profilePic: "",
+      createdAt: "",
+      phoneNumber: "",
+      uid: "",
+    );
     if (image != null) {
-      ap.saveUserDataToFireStore(
-          context: context,
-          userModel: userModel,
-          profilePic: image!,
-          onSuccess: () {
-            //store data locally also
-            ap
-                .saveUserDataToSP()
-                .then((value) => ap.setSignIn().then((value) => {
-                      Navigator.pushAndRemoveUntil(
+      ap.saveUserDataToFirebase(
+        context: context,
+        userModel: userModel,
+        profilePic: image!,
+        onSuccess: () {
+          ap.saveUserDataToSP().then(
+                (value) => ap.setSignIn().then(
+                      (value) => Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (_) => HomeScreen()),
-                          (route) => false)
-                    }));
-          });
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                          (route) => false),
+                    ),
+              );
+        },
+      );
     } else {
-      showSnackBar(context, "Please Upload Your Profile Photo");
+      showSnackBar(context, "Please upload your profile photo");
     }
   }
 }
